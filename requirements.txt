@@ -1,0 +1,2 @@
+scrapy>=1.8.0
+pymysql>=0.9.3
