@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import json
-import re
 from os import path
 
 
@@ -15,14 +14,16 @@ class AreaParser(object):
         for province in self._area_data:
             for city in province['cityList']:
                 for area in city['areaList']:
-                    if self._abbrev(area['name']) in text:
+                    if area['name'].rstrip('市') in text:
                         return province['name'], city['name'], area['name']
-                if self._abbrev(city['name']) in text:
+                if city['name'].rstrip('市') in text:
                     return province['name'], city['name'], None
-            if self._abbrev(province['name']) in text:
+            if province['shortName'] in text:
                 return province['name'], None, None
         return None, None, None
 
-    @staticmethod
-    def _abbrev(name: str) -> str:
-        return re.sub(r'[省市]', '', name)
+    def parse_province(self, text: str) -> str or None:
+        for province in self._area_data:
+            if province['shortName'] in text:
+                return province['name']
+        return None
