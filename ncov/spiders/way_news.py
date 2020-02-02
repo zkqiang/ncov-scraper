@@ -48,6 +48,6 @@ class WayNewsSpider(Spider):
                 province=self.area_parser.parse_province(response.meta['province']),
                 category=2,
             )
-            item.__class__.require_fields = ['title', 'publish_time', 'category']
-            item.__class__.unique_fields = []
+            item.__class__.require_fields = ['title', 'publish_time', 'category', 'province']
+            item.__class__.unique_fields = ['province', 'publish_time']
             yield item

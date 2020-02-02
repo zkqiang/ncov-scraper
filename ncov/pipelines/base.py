@@ -20,9 +20,10 @@ class BasePipeline(object):
 
     def _check_data(self, item, spider):
         require_fields = getattr(item, 'require_fields', None)
-        if require_fields == 0 or require_fields:
-            for fields in item.require_fields:
-                if not item.get(fields, None):
+        if require_fields:
+            for field in item.require_fields:
+                value = item.get(field, None)
+                if not value and value != 0:
                     spider.logger.error('Item 数据不完整: %s' % dict(item))
                     raise DropItem()
 
