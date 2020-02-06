@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from scrapy import Spider, Request
 
@@ -27,6 +27,12 @@ class CommunityNewsSpider(Spider):
     end_time = datetime(2020, 1, 21, 0, 0, 0, 0)
 
     area_parser = AreaParser()
+
+    def __init__(self, days=None, *a, **kw):
+        super().__init__(*a, **kw)
+        if days:
+            self.end_time = datetime.now().replace(
+                hour=0, minute=0, second=0, microsecond=0) - timedelta(days=int(days))
 
     def start_requests(self):
         for kw1 in self.primary_kw:
